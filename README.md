@@ -25,7 +25,9 @@ The purpose of this repository is to organize and showcase coursework completed 
 ## Assignments and Project
 
 ### [Assignments](./assignments/)
-1. 
+1. **assignment2-carddraw**  
+   → [assignment2-carddraw.ipynb](assignments/assignment2-carddraw.ipynb)  
+   Uses https://deckofcardsapi.com/ API and draws out 5 cards from a shuffled card deck.
 
 ---
 
