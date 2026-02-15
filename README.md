@@ -29,6 +29,10 @@ The purpose of this repository is to organize and showcase coursework completed 
    → [assignment2-carddraw.ipynb](assignments/assignment2-carddraw.ipynb)  
    Uses https://deckofcardsapi.com/ API and draws out 5 cards from a shuffled card deck.
 
+2. **assignment03-cso**  
+   → [assignment03-cso.py](assignment03-cso.py)  
+   Downloads Ireland's exchequer account (historical series) data from https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/FIQ02/CSV/1.0/en as csv file and converts it to json file.
+
 ---
 
 ### [Project](./project/) 
