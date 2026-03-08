@@ -208,3 +208,4 @@ __marimo__/
 
 # Custom
 website_and_applications.code-workspace
+.env
