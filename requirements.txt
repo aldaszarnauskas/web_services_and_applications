@@ -5,3 +5,5 @@ pandas
 collections
 io
 csv
+PyGithub
+python-dotenv

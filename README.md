@@ -33,6 +33,10 @@ The purpose of this repository is to organize and showcase coursework completed 
    → [assignment03-cso.py](assignment03-cso.py)  
    Downloads Ireland's exchequer account (historical series) data from https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/FIQ02/CSV/1.0/en as csv file and converts it to json file.
 
+3. **assignment04-github**  
+   → [assignment04-github.ipynb](assignment04-github.ipynb)  
+   This code reads andrew.txt from a GitHub repository, replaces every occurrence of "Andrew" with "Aldas", and pushes the updated file back to the repo.
+
 ---
 
 ### [Project](./project/) 
