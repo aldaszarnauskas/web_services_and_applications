@@ -11,11 +11,12 @@
     <div class="container">  <!-- Wrapper for form -->
         <h2 class="word">Choose the language</h2>
         
-        <form action="{{ url_for('learn_the_language') }}" method="post">
-            <div>{{ msg }}</div>
+        <form action="{{ url_for('language_learning') }}" method="post">
 
-            <input class="textbox" type="text" name="language_to_learn" placeholder="Enter the language" required>
-            <input class="textbox" type="text" name="the_level" placeholder="Enter the level" required>
+            <input class="textbox" type="text" name="primary_language" placeholder="Enter your language" required>
+            <input class="textbox" type="text" name="cambridge_level" placeholder="Enter the level" required>
+            <input class="textbox" type="text" name="secondary_language" placeholder="Enter the language you learn" required>
+            <input class="textbox" type="text" name="dialogue_length" placeholder="Enter the number of how many sentences do you want" required>
             
             <button class="btn" type="submit">Submit</button>
         </form>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Translation Practice</title>
+</head>
+<body>
+<div class="container">
+
+    <h2>Translation Practice</h2>
+
+    {% if response %}
+        {% for line in response %}
+        <div class="card" id="card-{{ line['id'] }}">
+
+            <!-- Speaker and Lithuanian text -->
+            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 10px;">
+                <span class="number">{{ line['id'] }}</span>
+                <span class="speaker">{{ line['name'] }}</span>
+                <p class="primary-text">{{ line['primary_lang'] }}</p>
+            </div>
+
+            <!-- Input and submit -->
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                <input type="text" id="input-{{ line['id'] }}" placeholder="Your translation...">
+                <button onclick="checkAnswer({{ line['id'] }})">Submit</button>
+            </div>
+
+            <!-- Answer revealed after submit (hidden by default) -->
+            <div id="answer-{{ line['id'] }}" style="display: none;">
+                <p id="feedback-{{ line['id'] }}"></p>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <p class="secondary-text">✅ {{ line['secondary_lang'] }}</p>
+                    <!-- Speak button for secondary language -->
+                    <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] }}', 'pt-BR')">🔊</button>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+<script>
+    const response = {{ response | tojson }};
+
+    function checkAnswer(id) {
+        // Find the line in the response array
+        const line = response.find(r => r.id === id);
+        const userAnswer = document.getElementById("input-" + id).value.trim();
+
+        if (!userAnswer) {
+            alert("Please type your translation first");
+            return;
+        }
+
+        // Compare ignoring case and punctuation
+        const clean = text => text.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
+        const isCorrect = clean(userAnswer) === clean(line.secondary_lang);
+
+        const feedback = document.getElementById("feedback-" + id);
+        if (isCorrect) {
+            feedback.innerText = "Correct!";
+            feedback.style.color = "green";
+        } else {
+            feedback.innerText = "Not quite — correct answer below:";
+            feedback.style.color = "black";
+        }
+
+        // Reveal the answer
+        document.getElementById("answer-" + id).style.display = "block";
+    }
+
+    // Allow Enter key on each input
+    document.addEventListener("DOMContentLoaded", function() {
+        response.forEach(line => {
+            const input = document.getElementById("input-" + line.id);
+            if (input) {
+                input.addEventListener("keypress", function(e) {
+                    if (e.key === "Enter") checkAnswer(line.id);
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    function speak(text, lang) {
+    // Stop any currently speaking audio
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    // Set the language so it pronounces correctly
+    if (lang == 'pt-BR') {
+        utterance.lang = 'pt-BR';   // 
+    } else if (lang == 'pt-BR') {
+        utterance.lang = 'pt-BR';   // 
+    }
+
+    utterance.rate = 0.9;    // slightly slower — easier to follow
+    utterance.pitch = 1;     // normal pitch
+
+    window.speechSynthesis.speak(utterance);
+}
+</script>
+
+</body>
+</html>

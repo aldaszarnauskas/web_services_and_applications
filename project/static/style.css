@@ -4,9 +4,10 @@ body {
     background-color: #9AC0CD;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
     margin: 0;
+    padding: 0;           
 }
 
 .container {
@@ -15,7 +16,11 @@ body {
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 350px;
+    width: 100%;          /* ← full width */
+    max-width: 100%;      /* ← never shrink */
+    box-sizing: border-box; /* ← padding doesn't add extra width */
+    margin: 0;            /* ← no gaps on sides */
+    border-radius: 0;     /* ← remove rounded corners */
 }
 
 h1 {
@@ -80,4 +85,21 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.speak-btn {
+    width: auto;
+    padding: 4px 8px;
+    font-size: 1rem;
+    background: transparent;
+    border: 1px solid #236B8E;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0;
+    color: #236B8E;
+}
+
+.speak-btn:hover {
+    background-color: #236B8E;
+    color: white;
 }

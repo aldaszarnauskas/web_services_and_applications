@@ -210,3 +210,4 @@ __marimo__/
 website_and_applications.code-workspace
 .env
 ./project/.env
+project.code-workspace

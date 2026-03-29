@@ -6,6 +6,10 @@ import re
 from dotenv import load_dotenv
 import os
 
+from google import genai
+
+from get_a_dialogue import get_a_dialogue
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -72,9 +76,24 @@ def register():
     return render_template('register.html', msg=msg)
 
 @app.route('/language_learning', methods=['GET', 'POST'])
-def learn_the_language():
-    msg = ''
-    return render_template('language_learning.html', msg=msg)
+def language_learning():
+
+    if request.method == 'POST' and 'primary_language' in request.form and 'cambridge_level' in request.form and 'secondary_language' in request.form and 'dialogue_length' in request.form:
+        primary_language = request.form['primary_language']
+        cambridge_level = request.form['cambridge_level']
+        secondary_language = request.form['secondary_language']
+        dialogue_length = request.form['dialogue_length']
+
+        response = get_a_dialogue(primary_language, cambridge_level, secondary_language, dialogue_length)
+
+        return render_template("translation_practise.html", response=response)
+    
+
+    return render_template("language_learning.html")
+
+@app.route('/translate_language', methods=['GET', 'POST'])
+def translate_language():
+    return render_template('translation_practise.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
