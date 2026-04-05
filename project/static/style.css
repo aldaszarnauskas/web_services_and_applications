@@ -1,26 +1,36 @@
-/* General styling */
+/* ============================================
+   GENERAL
+============================================ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
     background-color: #9AC0CD;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    background-image: url('/static/background_image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
     min-height: 100vh;
     margin: 0;
-    padding: 0;           
+    padding: 0;
+    display: block;    /* ← was flex, now block */
 }
 
 .container {
-    background-color: #6699A1;
+    background-color: rgba(102, 153, 161, 0.85);
     padding: 40px;
-    border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 100%;          /* ← full width */
-    max-width: 100%;      /* ← never shrink */
-    box-sizing: border-box; /* ← padding doesn't add extra width */
-    margin: 0;            /* ← no gaps on sides */
-    border-radius: 0;     /* ← remove rounded corners */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border-radius: 0;
 }
 
 h1 {
@@ -32,8 +42,28 @@ h1 {
     border-radius: 5px;
 }
 
-/* Input fields */
-input[type="text"], input[type="password"], input[type="email"] {
+h2 {
+    color: #FFFFFF;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+a {
+    color: #00008B;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   INPUTS
+============================================ */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     width: 90%;
     padding: 12px;
     margin: 10px 0;
@@ -45,14 +75,15 @@ input[type="text"], input[type="password"], input[type="email"] {
     font-style: oblique;
 }
 
-/* Placeholder text styling */
 ::placeholder {
     color: #236B8E;
     font-weight: bold;
     font-style: oblique;
 }
 
-/* Button styling */
+/* ============================================
+   BUTTONS
+============================================ */
 button {
     width: 95%;
     padding: 12px;
@@ -70,36 +101,244 @@ button:hover {
     background-color: #1E5A7B;
 }
 
-/* Bottom text link */
+.btn-submit {
+    width: auto;
+    padding: 10px 18px;
+    background: #236B8E;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.btn-submit:hover {
+    background: #1E5A7B;
+}
+
+.speak-btn {
+    width: auto;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    background: transparent;
+    border: 1.5px solid #236B8E;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #236B8E;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.speak-btn:hover {
+    background: #236B8E;
+    color: white;
+}
+
+/* ============================================
+   TEXT
+============================================ */
 p {
     margin-top: 15px;
     color: #1E5A7B;
     font-style: oblique;
 }
 
-a {
-    color: #00008B;
+.subtitle {
+    color: #f0f8ff;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.progress-text {
+    color: #f0f8ff;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* ============================================
+   LANGUAGE LEARNING FORM
+============================================ */
+.form-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 0.85rem;
     font-weight: bold;
-    text-decoration: none;
+    color: #f0f8ff;
+    margin-bottom: 5px;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-.speak-btn {
-    width: auto;
-    padding: 4px 8px;
-    font-size: 1rem;
-    background: transparent;
-    border: 1px solid #236B8E;
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: none;
     border-radius: 5px;
+    background-color: #f0f8ff;
+    color: #236B8E;
+    font-weight: bold;
     cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: 2px solid #236B8E;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    color: #f0f8ff;
+    margin-top: 20px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   TRANSLATION PRACTICE CARDS
+============================================ */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.number {
+    background: #236B8E;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.speaker {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #236B8E;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.primary-text {
+    margin: 4px 0 0 0;
+    font-size: 1rem;
+    color: #333;
+    font-style: normal;
+}
+
+.card-input {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.card-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: auto;
+    margin: 0;
+    text-align: left;
+    font-style: normal;
+}
+
+.card-input input:focus {
+    border-color: #236B8E;
+    outline: none;
+}
+
+.answer-box {
+    background: #f0f8ff;
+    border-left: 4px solid #236B8E;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 15px;
+    margin-top: 5px;
+}
+
+.answer-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.secondary-text {
     margin: 0;
     color: #236B8E;
+    font-weight: bold;
+    font-style: normal;
+    flex: 1;
 }
 
-.speak-btn:hover {
+.feedback {
+    font-weight: bold;
+    margin: 0 0 6px 0;
+    font-style: normal;
+}
+
+/* ============================================
+   TOP NAVIGATION BAR
+============================================ */
+.topnav {
+    width: 100%;
+    background-color: #1E5A7B;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.topnav a {
+    color: #f0f8ff;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-style: normal;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.topnav a:hover {
+    background-color: #236B8E;
+    color: white;
+}
+
+.topnav a.active {
     background-color: #236B8E;
     color: white;
 }

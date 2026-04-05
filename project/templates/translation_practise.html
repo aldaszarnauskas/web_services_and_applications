@@ -7,39 +7,60 @@
     <title>Translation Practice</title>
 </head>
 <body>
+
+    <!-- Navigation bar  -->
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/language_learning">Practice</a>
+        <a href="/logout">Logout</a>
+    </div>
+    
 <div class="container">
 
-    <h2>Translation Practice</h2>
+    <h2>🌍 Translation Practice</h2>
+    <p class="subtitle">Translate each sentence and reveal the answer</p>
 
     {% if response %}
+
+        <p class="progress-text">{{ response|length }} sentences to practise</p>
+
         {% for line in response %}
         <div class="card" id="card-{{ line['id'] }}">
 
-            <!-- Speaker and Lithuanian text -->
-            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 10px;">
+            <!-- Line number, speaker and primary text -->
+            <div class="card-header">
                 <span class="number">{{ line['id'] }}</span>
-                <span class="speaker">{{ line['name'] }}</span>
-                <p class="primary-text">{{ line['primary_lang'] }}</p>
+                <div class="card-content">
+                    <span class="speaker">{{ line['name'] }}</span>
+                    <p class="primary-text">{{ line['primary_lang'] }}</p>
+                </div>
+                <button class="speak-btn" onclick="speak('{{ line['primary_lang'] }}', 'en-GB')">🔊</button>
             </div>
 
             <!-- Input and submit -->
-            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                <input type="text" id="input-{{ line['id'] }}" placeholder="Your translation...">
-                <button onclick="checkAnswer({{ line['id'] }})">Submit</button>
+            <div class="card-input">
+                <input type="text" 
+                       id="input-{{ line['id'] }}" 
+                       placeholder="Type your translation here...">
+                <button class="btn-submit" onclick="checkAnswer({{ line['id'] }})">Check</button>
             </div>
 
-            <!-- Answer revealed after submit (hidden by default) -->
-            <div id="answer-{{ line['id'] }}" style="display: none;">
-                <p id="feedback-{{ line['id'] }}"></p>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <p class="secondary-text">✅ {{ line['secondary_lang'] }}</p>
-                    <!-- Speak button for secondary language -->
+            <!-- Answer revealed after submit -->
+            <div id="answer-{{ line['id'] }}" class="answer-box" style="display: none;">
+                <p id="feedback-{{ line['id'] }}" class="feedback"></p>
+                <div class="answer-content">
+                    <p class="secondary-text">{{ line['secondary_lang'] }}</p>
                     <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] }}', 'pt-BR')">🔊</button>
                 </div>
             </div>
 
         </div>
         {% endfor %}
+
+    {% else %}
+        <div class="card">
+            <p>No dialogue generated yet. <a href="{{ url_for('language_learning') }}">Go back and generate one.</a></p>
+        </div>
     {% endif %}
 
 </div>
@@ -86,6 +107,7 @@
         });
     });
 </script>
+
 
 <script>
     function speak(text, lang) {
