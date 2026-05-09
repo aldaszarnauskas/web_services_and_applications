@@ -1,3 +1,5 @@
+{% from 'macros.html' import topnav %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +10,7 @@
 </head>
 <body>
 
-    <!-- Navigation bar  -->
-    <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a href="/language_learning">Practice</a>
-        <a href="/logout">Logout</a>
-    </div>
+    {{ topnav() }}
     
 <div class="container">
 
@@ -34,7 +31,6 @@
                     <span class="speaker">{{ line['name'] }}</span>
                     <p class="primary-text">{{ line['primary_lang'] }}</p>
                 </div>
-                <button class="speak-btn" onclick="speak('{{ line['primary_lang'] }}', 'en-GB')">🔊</button>
             </div>
 
             <!-- Input and submit -->
@@ -46,30 +42,27 @@
             </div>
 
             <!-- Answer revealed after submit -->
-            <div id="answer-{{ line['id'] }}" class="answer-box" style="display: none;">
+            <div id="answer-{{ line['id'] }}" class="answer-box" style="display: none;" translate="no">
                 <p id="feedback-{{ line['id'] }}" class="feedback"></p>
                 <div class="answer-content">
-                    <p class="secondary-text">{{ line['secondary_lang'] }}</p>
-                    <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] }}', 'pt-BR')">🔊</button>
+                    <p class="secondary-text" translate="no">{{ line['secondary_lang'] }}</p>
+                    <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] }}', '{{ lang_code }}')">🔊</button>
                 </div>
             </div>
 
         </div>
         {% endfor %}
 
-    {% else %}
-        <div class="card">
-            <p>No dialogue generated yet. <a href="{{ url_for('language_learning') }}">Go back and generate one.</a></p>
-        </div>
     {% endif %}
 
 </div>
 
+
+
 <script>
-    const response = {{ response | tojson }};
+    const response = {{ response | tojson if response else '[]' }};
 
     function checkAnswer(id) {
-        // Find the line in the response array
         const line = response.find(r => r.id === id);
         const userAnswer = document.getElementById("input-" + id).value.trim();
 
@@ -78,7 +71,6 @@
             return;
         }
 
-        // Compare ignoring case and punctuation
         const clean = text => text.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
         const isCorrect = clean(userAnswer) === clean(line.secondary_lang);
 
@@ -91,43 +83,30 @@
             feedback.style.color = "black";
         }
 
-        // Reveal the answer
         document.getElementById("answer-" + id).style.display = "block";
     }
 
-    // Allow Enter key on each input
-    document.addEventListener("DOMContentLoaded", function() {
-        response.forEach(line => {
-            const input = document.getElementById("input-" + line.id);
-            if (input) {
-                input.addEventListener("keypress", function(e) {
-                    if (e.key === "Enter") checkAnswer(line.id);
-                });
-            }
-        });
-    });
-</script>
-
-
-<script>
     function speak(text, lang) {
-    // Stop any currently speaking audio
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-
-    // Set the language so it pronounces correctly
-    if (lang == 'pt-BR') {
-        utterance.lang = 'pt-BR';   // 
-    } else if (lang == 'pt-BR') {
-        utterance.lang = 'pt-BR';   // 
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
     }
 
-    utterance.rate = 0.9;    // slightly slower — easier to follow
-    utterance.pitch = 1;     // normal pitch
-
-    window.speechSynthesis.speak(utterance);
-}
+    document.addEventListener("DOMContentLoaded", function() {
+        if (response.length > 0) {
+            response.forEach(line => {
+                const input = document.getElementById("input-" + line.id);
+                if (input) {
+                    input.addEventListener("keypress", function(e) {
+                        if (e.key === "Enter") checkAnswer(line.id);
+                    });
+                }
+            });
+        }
+    });
 </script>
 
 </body>

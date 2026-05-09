@@ -1,0 +1,112 @@
+{% macro primary_language_select(defaults) %}
+<select id="primary_language" name="primary_language">
+    <option value="lt-LT" {{ 'selected' if defaults and defaults.primary_language == 'lt-LT' }}>🇱🇹 Lithuanian</option>
+    <option value="af-ZA" {{ 'selected' if defaults and defaults.primary_language == 'af-ZA' }}>🇿🇦 Afrikaans</option>
+    <option value="ar-XA" {{ 'selected' if defaults and defaults.primary_language == 'ar-XA' }}>🇸🇦 Arabic</option>
+    <option value="bn-BD" {{ 'selected' if defaults and defaults.primary_language == 'bn-BD' }}>🇧🇩 Bengali</option>
+    <option value="pt-BR" {{ 'selected' if defaults and defaults.primary_language == 'pt-BR' }}>🇧🇷 Brazilian Portuguese</option>
+    <option value="bg-BG" {{ 'selected' if defaults and defaults.primary_language == 'bg-BG' }}>🇧🇬 Bulgarian</option>
+    <option value="ca-ES" {{ 'selected' if defaults and defaults.primary_language == 'ca-ES' }}>🏴 Catalan</option>
+    <option value="zh-CN" {{ 'selected' if defaults and defaults.primary_language == 'zh-CN' }}>🇨🇳 Chinese (Mandarin)</option>
+    <option value="hr-HR" {{ 'selected' if defaults and defaults.primary_language == 'hr-HR' }}>🇭🇷 Croatian</option>
+    <option value="cs-CZ" {{ 'selected' if defaults and defaults.primary_language == 'cs-CZ' }}>🇨🇿 Czech</option>
+    <option value="da-DK" {{ 'selected' if defaults and defaults.primary_language == 'da-DK' }}>🇩🇰 Danish</option>
+    <option value="nl-NL" {{ 'selected' if defaults and defaults.primary_language == 'nl-NL' }}>🇳🇱 Dutch</option>
+    <option value="en-GB" {{ 'selected' if defaults and defaults.primary_language == 'en-GB' }}>🇬🇧 English</option>
+    <option value="et-EE" {{ 'selected' if defaults and defaults.primary_language == 'et-EE' }}>🇪🇪 Estonian</option>
+    <option value="fi-FI" {{ 'selected' if defaults and defaults.primary_language == 'fi-FI' }}>🇫🇮 Finnish</option>
+    <option value="fr-FR" {{ 'selected' if defaults and defaults.primary_language == 'fr-FR' }}>🇫🇷 French</option>
+    <option value="de-DE" {{ 'selected' if defaults and defaults.primary_language == 'de-DE' }}>🇩🇪 German</option>
+    <option value="el-GR" {{ 'selected' if defaults and defaults.primary_language == 'el-GR' }}>🇬🇷 Greek</option>
+    <option value="he-IL" {{ 'selected' if defaults and defaults.primary_language == 'he-IL' }}>🇮🇱 Hebrew</option>
+    <option value="hi-IN" {{ 'selected' if defaults and defaults.primary_language == 'hi-IN' }}>🇮🇳 Hindi</option>
+    <option value="hu-HU" {{ 'selected' if defaults and defaults.primary_language == 'hu-HU' }}>🇭🇺 Hungarian</option>
+    <option value="id-ID" {{ 'selected' if defaults and defaults.primary_language == 'id-ID' }}>🇮🇩 Indonesian</option>
+    <option value="it-IT" {{ 'selected' if defaults and defaults.primary_language == 'it-IT' }}>🇮🇹 Italian</option>
+    <option value="ja-JP" {{ 'selected' if defaults and defaults.primary_language == 'ja-JP' }}>🇯🇵 Japanese</option>
+    <option value="ko-KR" {{ 'selected' if defaults and defaults.primary_language == 'ko-KR' }}>🇰🇷 Korean</option>
+    <option value="lv-LV" {{ 'selected' if defaults and defaults.primary_language == 'lv-LV' }}>🇱🇻 Latvian</option>
+    <option value="ms-MY" {{ 'selected' if defaults and defaults.primary_language == 'ms-MY' }}>🇲🇾 Malay</option>
+    <option value="no-NO" {{ 'selected' if defaults and defaults.primary_language == 'no-NO' }}>🇳🇴 Norwegian</option>
+    <option value="fa-IR" {{ 'selected' if defaults and defaults.primary_language == 'fa-IR' }}>🇮🇷 Persian</option>
+    <option value="pl-PL" {{ 'selected' if defaults and defaults.primary_language == 'pl-PL' }}>🇵🇱 Polish</option>
+    <option value="pt-PT" {{ 'selected' if defaults and defaults.primary_language == 'pt-PT' }}>🇵🇹 Portuguese</option>
+    <option value="ro-RO" {{ 'selected' if defaults and defaults.primary_language == 'ro-RO' }}>🇷🇴 Romanian</option>
+    <option value="ru-RU" {{ 'selected' if defaults and defaults.primary_language == 'ru-RU' }}>🇷🇺 Russian</option>
+    <option value="sr-RS" {{ 'selected' if defaults and defaults.primary_language == 'sr-RS' }}>🇷🇸 Serbian</option>
+    <option value="sk-SK" {{ 'selected' if defaults and defaults.primary_language == 'sk-SK' }}>🇸🇰 Slovak</option>
+    <option value="es-ES" {{ 'selected' if defaults and defaults.primary_language == 'es-ES' }}>🇪🇸 Spanish</option>
+    <option value="sw-KE" {{ 'selected' if defaults and defaults.primary_language == 'sw-KE' }}>🇰🇪 Swahili</option>
+    <option value="sv-SE" {{ 'selected' if defaults and defaults.primary_language == 'sv-SE' }}>🇸🇪 Swedish</option>
+    <option value="th-TH" {{ 'selected' if defaults and defaults.primary_language == 'th-TH' }}>🇹🇭 Thai</option>
+    <option value="tr-TR" {{ 'selected' if defaults and defaults.primary_language == 'tr-TR' }}>🇹🇷 Turkish</option>
+    <option value="uk-UA" {{ 'selected' if defaults and defaults.primary_language == 'uk-UA' }}>🇺🇦 Ukrainian</option>
+    <option value="ur-PK" {{ 'selected' if defaults and defaults.primary_language == 'ur-PK' }}>🇵🇰 Urdu</option>
+    <option value="vi-VN" {{ 'selected' if defaults and defaults.primary_language == 'vi-VN' }}>🇻🇳 Vietnamese</option>
+    <option value="cy-GB" {{ 'selected' if defaults and defaults.primary_language == 'cy-GB' }}>🏴󠁧󠁢󠁷󠁬󠁳󠁿 Welsh</option>
+</select>
+{% endmacro %}
+
+{% macro secondary_language_select(defaults) %}
+<select id="secondary_language" name="secondary_language">
+    <option value="lt-LT" {{ 'selected' if defaults and defaults.secondary_language == 'lt-LT' }}>🇱🇹 Lithuanian</option>
+    <option value="en-US" {{ 'selected' if defaults and defaults.secondary_language == 'en-US' }}>🇺🇸 English (US)</option>
+    <option value="en-GB" {{ 'selected' if defaults and defaults.secondary_language == 'en-GB' }}>🇬🇧 English (UK)</option>
+    <option value="de-DE" {{ 'selected' if defaults and defaults.secondary_language == 'de-DE' }}>🇩🇪 German</option>
+    <option value="es-ES" {{ 'selected' if defaults and defaults.secondary_language == 'es-ES' }}>🇪🇸 Spanish (Spain)</option>
+    <option value="es-US" {{ 'selected' if defaults and defaults.secondary_language == 'es-US' }}>🇺🇸 Spanish (US)</option>
+    <option value="fr-FR" {{ 'selected' if defaults and defaults.secondary_language == 'fr-FR' }}>🇫🇷 French</option>
+    <option value="zh-CN" {{ 'selected' if defaults and defaults.secondary_language == 'zh-CN' }}>🇨🇳 Mandarin Chinese</option>
+    <option value="hi-IN" {{ 'selected' if defaults and defaults.secondary_language == 'hi-IN' }}>🇮🇳 Hindi</option>
+    <option value="ja-JP" {{ 'selected' if defaults and defaults.secondary_language == 'ja-JP' }}>🇯🇵 Japanese</option>
+    <option value="ru-RU" {{ 'selected' if defaults and defaults.secondary_language == 'ru-RU' }}>🇷🇺 Russian</option>
+    <option value="pt-BR" {{ 'selected' if defaults and defaults.secondary_language == 'pt-BR' }}>🇧🇷 Portuguese (Brazil)</option>
+    <option value="it-IT" {{ 'selected' if defaults and defaults.secondary_language == 'it-IT' }}>🇮🇹 Italian</option>
+    <option value="ko-KR" {{ 'selected' if defaults and defaults.secondary_language == 'ko-KR' }}>🇰🇷 Korean</option>
+    <option value="nl-NL" {{ 'selected' if defaults and defaults.secondary_language == 'nl-NL' }}>🇳🇱 Dutch</option>
+    <option value="id-ID" {{ 'selected' if defaults and defaults.secondary_language == 'id-ID' }}>🇮🇩 Indonesian</option>
+    <option value="vi-VN" {{ 'selected' if defaults and defaults.secondary_language == 'vi-VN' }}>🇻🇳 Vietnamese</option>
+    <option value="th-TH" {{ 'selected' if defaults and defaults.secondary_language == 'th-TH' }}>🇹🇭 Thai</option>
+</select>
+{% endmacro %}
+
+{% macro lang_level_select(defaults) %}
+<select id="language_level" name="language_level">
+    <option value="A1" {{ 'selected' if defaults and defaults.lang_level == 'A1' }}>A1 — Beginner</option>
+    <option value="A2" {{ 'selected' if defaults and defaults.lang_level == 'A2' }}>A2 — Elementary</option>
+    <option value="B1" {{ 'selected' if defaults and defaults.lang_level == 'B1' }}>B1 — Intermediate</option>
+    <option value="B2" {{ 'selected' if defaults and defaults.lang_level == 'B2' }}>B2 — Upper Intermediate</option>
+    <option value="C1" {{ 'selected' if defaults and defaults.lang_level == 'C1' }}>C1 — Advanced</option>
+    <option value="C2" {{ 'selected' if defaults and defaults.lang_level == 'C2' }}>C2 — Proficient</option>
+</select>
+{% endmacro %}
+
+{% macro dialogue_length_select(defaults) %}
+<select id="dialogue_length" name="dialogue_length">
+    <option value="5"  {{ 'selected' if defaults and defaults.dialogue_length == 5  }}>5 sentences</option>
+    <option value="10" {{ 'selected' if defaults and defaults.dialogue_length == 10 }}>10 sentences</option>
+    <option value="20" {{ 'selected' if defaults and defaults.dialogue_length == 20 }}>20 sentences</option>
+    <option value="25" {{ 'selected' if defaults and defaults.dialogue_length == 25 }}>25 sentences</option>
+    <option value="30" {{ 'selected' if defaults and defaults.dialogue_length == 30 }}>30 sentences</option>
+    <option value="40" {{ 'selected' if defaults and defaults.dialogue_length == 40 }}>40 sentences</option>
+    <option value="50" {{ 'selected' if defaults and defaults.dialogue_length == 50 }}>50 sentences</option>
+</select>
+{% endmacro %}
+
+{% macro topnav() %}
+<div class="topnav">
+    <a href="/">Home</a>
+    <a href="/select_languages">Select Languages</a>
+    <a href="/translation_practice">Translation Practice</a>
+    <a href="/account_settings">Account Settings</a>
+
+    <div class="nav-auth">
+        {% if session.get('loggedin') %}
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}

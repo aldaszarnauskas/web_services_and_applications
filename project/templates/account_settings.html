@@ -1,0 +1,136 @@
+{% from 'macros.html' import topnav, primary_language_select, secondary_language_select, lang_level_select, dialogue_length_select %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Account Settings</title>
+</head>
+<body>
+
+    {{ topnav() }}
+
+    <div class="container">
+        <h2>Account Settings</h2>
+
+        <!-- Update user details -->
+        <div class="card">
+            <h3>Update Login Details</h3>
+
+            <!-- Current password required first -->
+            <input type="password" id="current-password" placeholder="Enter current password to confirm">
+
+            <!-- New details -->
+            <input type="text" id="new-username" placeholder="New username (leave blank to keep)">
+            <input type="password" id="new-password" placeholder="New password (leave blank to keep)">
+            <input type="email" id="new-email" placeholder="New email (leave blank to keep)">
+
+            <button type="button" class="btn-submit" onclick="updateUser()">Save Login Details</button>
+            <p id="user-msg"></p>
+        </div>
+
+        <!-- Update language settings -->
+        <div class="card">
+            <h3>Update Language Settings</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Primary Language</label>
+                    {{ primary_language_select(defaults) }}
+                </div>
+                <div class="form-group">
+                    <label>Secondary Language</label>
+                    {{ secondary_language_select(defaults) }}
+                </div>
+                <div class="form-group">
+                    <label>Level</label>
+                    {{ lang_level_select(defaults) }}
+                </div>
+                <div class="form-group">
+                    <label>Dialogue Length</label>
+                    {{ dialogue_length_select(defaults) }}
+                </div>
+            </div>
+            <button class="btn-submit" onclick="updateSettings()">Save Language Settings</button>
+            <p id="settings-msg"></p>
+        </div>
+
+        <!-- Delete account -->
+        <div class="card">
+            <h3>Delete Account</h3>
+            <p>This will permanently delete your account and all your data.</p>
+            <button class="btn-danger" onclick="deleteAccount()">Delete My Account</button>
+        </div>
+
+    </div>
+
+<script>
+async function updateUser() {
+    const currentPassword = document.getElementById('current-password').value.trim()
+    const username = document.getElementById('new-username').value.trim()
+    const password = document.getElementById('new-password').value.trim()
+    const email = document.getElementById('new-email').value.trim()
+
+    // Current password is always required
+    if (!currentPassword) {
+        document.getElementById('user-msg').innerText = 'Please enter your current password to confirm'
+        document.getElementById('user-msg').style.color = 'red'
+        return
+    }
+
+    const payload = { current_password: currentPassword }
+    if (username) payload.username = username
+    if (password) payload.password = password
+    if (email) payload.email = email
+
+    if (Object.keys(payload).length === 1) {
+        document.getElementById('user-msg').innerText = 'Please fill in at least one new field'
+        document.getElementById('user-msg').style.color = 'red'
+        return
+    }
+
+    const response = await fetch('/update_user', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    const msg = document.getElementById('user-msg')
+    msg.innerText = data.msg || data.error
+    msg.style.color = data.error ? 'red' : 'green'
+}
+
+async function updateSettings() {
+    const response = await fetch('/update_settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            primary_language: document.getElementById('primary_language').value,
+            secondary_language: document.getElementById('secondary_language').value,
+            lang_level: document.getElementById('language_level').value,
+            dialogue_length: document.getElementById('dialogue_length').value
+        })
+    })
+    const data = await response.json()
+    const msg = document.getElementById('settings-msg')
+    msg.innerText = data.msg || data.error
+    msg.style.color = data.error ? 'red' : 'green'
+}
+
+async function deleteAccount() {
+    if (!confirm('Are you sure? This cannot be undone.')) return
+
+    const response = await fetch('/delete_account', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const data = await response.json()
+    if (data.msg) {
+        window.location.href = '/'
+    }
+}
+</script>
+
+</body>
+</html>

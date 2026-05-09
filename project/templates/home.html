@@ -1,0 +1,101 @@
+{% from 'macros.html' import topnav %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Active Recall Language Learning</title>
+</head>
+<body>
+
+    {{ topnav() }}
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🌍 Active Recall Language Learning</h1>
+            <p class="hero-subtitle">Master any language through dialogue practice and active recall</p>
+
+            {% if session.get('loggedin') %}
+                <!-- Logged in user sees welcome and quick start -->
+                <div class="welcome-box">
+                    <h2>Welcome back, {{ session['username'] }}! 👋</h2>
+                    <p class="subtitle">Ready to practise today?</p>
+                    <a href="/select_languages" class="hero-btn">Start Practising →</a>
+                </div>
+            {% else %}
+                <!-- Guest sees login and register buttons -->
+                <div class="hero-buttons">
+                    <a href="/register" class="hero-btn">Get Started — It's Free</a>
+                    <a href="/login" class="hero-btn-outline">Login</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>AI Generated Dialogues</h3>
+                <p class="feature-text">Generate realistic conversations in any language using Google Gemini AI — tailored to your level from A1 to C2.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Active Recall Practice</h3>
+                <p class="feature-text">Translate each sentence yourself before revealing the answer. Proven to improve retention far better than passive reading.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔊</div>
+                <h3>Native Pronunciation</h3>
+                <p class="feature-text">Hear every sentence spoken aloud in the correct language with natural pacing to train your ear.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>40+ Languages</h3>
+                <p class="feature-text">From Lithuanian to Japanese, Brazilian Portuguese to Swahili — practise any language pair you choose.</p>
+            </div>
+
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <p class="step-text">Choose your languages and difficulty level</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <p class="step-text">AI generates a natural dialogue for you</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <p class="step-text">Translate each sentence and check your answer</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <p class="step-text">Listen to the correct pronunciation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Built with Flask, SQLite and Google Gemini AI</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

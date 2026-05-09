@@ -13,7 +13,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll;
     font-family: Arial, sans-serif;
     min-height: 100vh;
     margin: 0;
@@ -27,9 +27,9 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 100%;
-    max-width: 100%;
+    max-width: 1100px;
     box-sizing: border-box;
-    margin: 0;
+    margin: auto;
     border-radius: 0;
 }
 
@@ -194,7 +194,7 @@ p {
 }
 
 .form-group select:focus {
-    outline: 2px solid #236B8E;
+    outline: 2px solid #FFD700;
 }
 
 .arrow {
@@ -227,9 +227,9 @@ p {
     flex: 1;
 }
 
-.number {
-    background: #236B8E;
-    color: white;
+.number, .step-number {
+    background: #FFD700; /* Gold/Yellow */
+    color: #236B8E;      /* Blue text for contrast */
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -239,8 +239,8 @@ p {
     font-size: 0.85rem;
     font-weight: bold;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .speaker {
     font-size: 0.8rem;
     font-weight: bold;
@@ -256,22 +256,31 @@ p {
     font-style: normal;
 }
 
+/* Input + Button container */
 .card-input {
-    display: flex;
-    gap: 8px;
+    display: flex;            /* horizontal layout */
+    gap: 10px;                /* space between input and button */
     margin-bottom: 10px;
+    width: 100%;
 }
 
+/* Input field */
 .card-input input {
-    flex: 1;
-    padding: 10px;
+    flex: 1;                  /* fills available space */
+    padding: 14px;            /* taller typing area */
+    font-size: 1.1rem;        /* larger, easier to read */
     border: 1.5px solid #ccc;
     border-radius: 6px;
-    font-size: 0.95rem;
-    width: auto;
-    margin: 0;
-    text-align: left;
-    font-style: normal;
+    min-height: 48px;         /* ensures enough height on mobile */
+}
+
+/* Submit button */
+.card-input .btn-submit {
+    padding: 12px 18px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;           /* keeps button width stable */
 }
 
 .card-input input:focus {
@@ -296,12 +305,12 @@ p {
 
 .secondary-text {
     margin: 0;
-    color: #236B8E;
+    color: #DAA520; /* Darker Goldenrod for readability on light backgrounds */
     font-weight: bold;
     font-style: normal;
     flex: 1;
+    font-size: 1.1rem;
 }
-
 .feedback {
     font-weight: bold;
     margin: 0 0 6px 0;
@@ -341,4 +350,237 @@ p {
 .topnav a.active {
     background-color: #236B8E;
     color: white;
+}
+
+.nav-auth {
+    margin-left: auto;
+    display: flex;
+}
+
+/* ============================================
+   HOMEPAGE
+============================================ */
+.hero {
+    padding: 60px 20px 40px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    color: #f0f8ff;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.welcome-box {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 30px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.welcome-box h2 {
+    margin-bottom: 8px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.hero-btn {
+    background-color: #236B8E;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.hero-btn:hover {
+    background-color: #1E5A7B;
+    text-decoration: none;
+    color: white;
+}
+
+.hero-btn-outline {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    border: 2px solid #ffffff;
+}
+
+.hero-btn-outline:hover {
+    background-color: rgba(255,255,255,0.15);
+    text-decoration: none;
+    color: white;
+}
+
+/* Features */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px 0 40px 0;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: #FFD700; /* Icons now yellow */
+}
+
+.feature-card h3 {
+    color: #ffffff;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+}
+
+.feature-text {
+    color: #f0f8ff;
+    font-size: 0.9rem;
+    font-style: normal;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* How it works */
+.how-it-works {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.how-it-works h2 {
+    margin-bottom: 25px;
+}
+
+.steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.step {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 15px;
+    width: 160px;
+    text-align: center;
+}
+
+
+.step-text {
+    color: #f0f8ff;
+    font-size: 0.85rem;
+    margin: 0;
+    font-style: normal;
+}
+
+.step-arrow {
+    color: #f0f8ff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin-top: 20px;
+}
+
+.footer p {
+    color: #f0f8ff;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    font-style: normal;
+    margin: 0;
+}
+/* ============================================
+   MOBILE FIX
+============================================ */
+
+@media (max-width: 768px) {
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .arrow {
+        display: none;
+    }
+
+    .hero {
+        padding: 30px 15px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+
+    .topnav {
+        flex-wrap: wrap;
+    }
+
+    .topnav a {
+        flex: 1 1 50%;
+        text-align: center;
+    }
+
+    .nav-auth {
+        width: 100%;
+        justify-content: center;
+    }
+
+        .card-input {
+        flex-direction: column;
+    }
+
+    .card-input .btn-submit {
+        width: 100%;
+    }
+
+    .card-input input {
+        font-size: 1.2rem;
+        padding: 16px;
+    }
+
 }
