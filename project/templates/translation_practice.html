@@ -53,6 +53,10 @@
         </div>
         {% endfor %}
 
+    {% else %}
+        <div class="card">
+            <p>No dialogue generated yet. <a href="{{ url_for('language_learning') }}">Go back and generate one.</a></p>
+        </div>
     {% endif %}
 
 </div>
@@ -60,53 +64,53 @@
 
 
 <script>
-    const response = {{ response | tojson if response else '[]' }};
+const response = {{ response | tojson if response else '[]' }};
 
-    function checkAnswer(id) {
-        const line = response.find(r => r.id === id);
-        const userAnswer = document.getElementById("input-" + id).value.trim();
+function checkAnswer(id) {
+    const line = response.find(r => r.id === id);
+    const userAnswer = document.getElementById("input-" + id).value.trim();
 
-        if (!userAnswer) {
-            alert("Please type your translation first");
-            return;
-        }
-
-        const clean = text => text.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
-        const isCorrect = clean(userAnswer) === clean(line.secondary_lang);
-
-        const feedback = document.getElementById("feedback-" + id);
-        if (isCorrect) {
-            feedback.innerText = "Correct!";
-            feedback.style.color = "green";
-        } else {
-            feedback.innerText = "Not quite — correct answer below:";
-            feedback.style.color = "black";
-        }
-
-        document.getElementById("answer-" + id).style.display = "block";
+    if (!userAnswer) {
+        alert("Please type your translation first");
+        return;
     }
 
-    function speak(text, lang) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang;
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
-        window.speechSynthesis.speak(utterance);
+    const clean = text => text.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
+    const isCorrect = clean(userAnswer) === clean(line.secondary_lang);
+
+    const feedback = document.getElementById("feedback-" + id);
+    if (isCorrect) {
+        feedback.innerText = "Correct!";
+        feedback.style.color = "green";
+    } else {
+        feedback.innerText = "Not quite — correct answer below:";
+        feedback.style.color = "black";
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        if (response.length > 0) {
-            response.forEach(line => {
-                const input = document.getElementById("input-" + line.id);
-                if (input) {
-                    input.addEventListener("keypress", function(e) {
-                        if (e.key === "Enter") checkAnswer(line.id);
-                    });
-                }
-            });
-        }
-    });
+    document.getElementById("answer-" + id).style.display = "block";
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (response.length > 0) {
+        response.forEach(line => {
+            const input = document.getElementById("input-" + line.id);
+            if (input) {
+                input.addEventListener("keypress", function(e) {
+                    if (e.key === "Enter") checkAnswer(line.id);
+                });
+            }
+        });
+    }
+});
 </script>
 
 </body>
