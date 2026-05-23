@@ -120,14 +120,22 @@
 {% endmacro %}
 
 {% macro topnav() %}
+
+<!-- PWA tags — added once here so every page has them -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#1E5A7B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ARLL">
+
 <div class="topnav">
     <a href="/">Home</a>
     <a href="/select_languages">Select Languages</a>
     <a href="/translation_practice">Translation Practice</a>
-    <a href="/account_settings">Account Settings</a>
-
     <div class="nav-auth">
         {% if session.get('loggedin') %}
+            <a href="/account_settings">Account</a>
             <a href="/logout">Logout</a>
         {% else %}
             <a href="/login">Login</a>
@@ -135,4 +143,14 @@
         {% endif %}
     </div>
 </div>
+
+<!-- Register service worker -->
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('Service worker registered'))
+        .catch(err => console.log('SW error:', err))
+}
+</script>
+
 {% endmacro %}

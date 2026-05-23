@@ -258,3 +258,13 @@ def translation_practice():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+#---- PWA app like experience ----#
+# Serve service worker from root so it can control the whole site
+@app.route('/sw.js')
+def service_worker():
+    return app.send_static_file('sw.js'), 200, {
+        'Content-Type': 'application/javascript',
+        'Cache-Control': 'no-cache'
+    }

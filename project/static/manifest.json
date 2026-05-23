@@ -1,0 +1,21 @@
+{
+    "name": "Active Recall Language Learning",
+    "short_name": "ARLL",
+    "description": "Learn languages through active recall and dialogue practice",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#9AC0CD",
+    "theme_color": "#1E5A7B",
+    "icons": [
+        {
+            "src": "/static/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
