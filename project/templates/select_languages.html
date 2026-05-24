@@ -1,4 +1,4 @@
-{% from 'macros.html' import topnav, primary_language_select, secondary_language_select, lang_level_select, dialogue_length_select %}
+{% from 'macros.html' import topnav, primary_language_select, secondary_language_select, lang_level_select, dialogue_length_select, pwa_tags, sw_script %}
 
 
 <!DOCTYPE html>
@@ -8,8 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>Login</title>
+
+    {{ pwa_tags() }} 
+    
 </head>
 <body>
+
+    {{ sw_script() }}
+
 
     {{ topnav() }}
 
