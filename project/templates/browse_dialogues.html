@@ -1,0 +1,258 @@
+{% from 'macros.html' import topnav, pwa_tags, sw_script %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Browse Dialogues</title>
+    {{ pwa_tags() }}
+</head>
+<body>
+
+{{ topnav() }}
+
+<div class="container">
+
+    <h2>📚 Practice Stored Dialogues</h2>
+    <p class="subtitle">Choose your languages and level — no AI quota used</p>
+
+    <!-- Selection Form -->
+    <div class="card" id="selection-card">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Primary Language (I know this)</label>
+                <select id="primary_language">
+                    <option value="english">🇬🇧 English</option>
+                    <option value="lithuanian">🇱🇹 Lithuanian</option>
+                    <option value="latvian">🇱🇻 Latvian</option>
+                    <option value="estonian">🇪🇪 Estonian</option>
+                    <option value="german">🇩🇪 German</option>
+                    <option value="french">🇫🇷 French</option>
+                    <option value="spanish">🇪🇸 Spanish</option>
+                    <option value="italian">🇮🇹 Italian</option>
+                    <option value="portuguese">🇵🇹 Portuguese</option>
+                    <option value="brazilian_portuguese">🇧🇷 Brazilian Portuguese</option>
+                    <option value="dutch">🇳🇱 Dutch</option>
+                    <option value="polish">🇵🇱 Polish</option>
+                    <option value="ukrainian">🇺🇦 Ukrainian</option>
+                    <option value="russian">🇷🇺 Russian</option>
+                    <option value="swedish">🇸🇪 Swedish</option>
+                    <option value="norwegian">🇳🇴 Norwegian</option>
+                    <option value="danish">🇩🇰 Danish</option>
+                    <option value="finnish">🇫🇮 Finnish</option>
+                    <option value="greek">🇬🇷 Greek</option>
+                    <option value="mandarin">🇨🇳 Mandarin</option>
+                    <option value="japanese">🇯🇵 Japanese</option>
+                    <option value="korean">🇰🇷 Korean</option>
+                    <option value="hindi">🇮🇳 Hindi</option>
+                    <option value="vietnamese">🇻🇳 Vietnamese</option>
+                    <option value="arabic">🇸🇦 Arabic</option>
+                </select>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="form-group">
+                <label>Target Language (I want to learn this)</label>
+                <select id="secondary_language">
+                    <option value="lithuanian">🇱🇹 Lithuanian</option>
+                    <option value="english">🇬🇧 English</option>
+                    <option value="latvian">🇱🇻 Latvian</option>
+                    <option value="estonian">🇪🇪 Estonian</option>
+                    <option value="german">🇩🇪 German</option>
+                    <option value="french">🇫🇷 French</option>
+                    <option value="spanish">🇪🇸 Spanish</option>
+                    <option value="italian">🇮🇹 Italian</option>
+                    <option value="portuguese">🇵🇹 Portuguese</option>
+                    <option value="brazilian_portuguese">🇧🇷 Brazilian Portuguese</option>
+                    <option value="dutch">🇳🇱 Dutch</option>
+                    <option value="polish">🇵🇱 Polish</option>
+                    <option value="ukrainian">🇺🇦 Ukrainian</option>
+                    <option value="russian">🇷🇺 Russian</option>
+                    <option value="swedish">🇸🇪 Swedish</option>
+                    <option value="norwegian">🇳🇴 Norwegian</option>
+                    <option value="danish">🇩🇰 Danish</option>
+                    <option value="finnish">🇫🇮 Finnish</option>
+                    <option value="greek">🇬🇷 Greek</option>
+                    <option value="mandarin">🇨🇳 Mandarin</option>
+                    <option value="japanese">🇯🇵 Japanese</option>
+                    <option value="korean">🇰🇷 Korean</option>
+                    <option value="hindi">🇮🇳 Hindi</option>
+                    <option value="vietnamese">🇻🇳 Vietnamese</option>
+                    <option value="arabic">🇸🇦 Arabic</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Difficulty Level</label>
+                <select id="lang_level">
+                    {% for level in levels %}
+                    <option value="{{ level }}">{{ level }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <button type="button" class="hero-btn" onclick="loadDialogue()">
+            📖 Start Practice
+        </button>
+        <p id="load-msg" style="color: #f0f8ff; margin-top: 10px;"></p>
+
+    </div>
+
+    <!-- Dialogue Practice Area -->
+    <div id="practice-area" style="display: none;">
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div>
+                <span id="dialogue-topic" class="level-badge"></span>
+                <span id="dialogue-level" class="level-badge" style="margin-left: 8px;"></span>
+            </div>
+            <button type="button" class="btn-submit" onclick="loadDialogue()">🔄 New Dialogue</button>
+        </div>
+
+        <div id="dialogue-lines"></div>
+
+    </div>
+
+</div>
+
+<script>
+async function loadDialogue() {
+    const primary = document.getElementById('primary_language').value
+    const secondary = document.getElementById('secondary_language').value
+    const level = document.getElementById('lang_level').value
+    const msg = document.getElementById('load-msg')
+
+    // Prevent same language selection
+    if (primary === secondary) {
+        msg.innerText = '⚠️ Please choose two different languages'
+        msg.style.color = 'orange'
+        return
+    }
+
+    msg.innerText = 'Loading dialogue...'
+    msg.style.color = '#f0f8ff'
+
+    try {
+        const res = await fetch(`/api/stored_dialogue?primary_language=${primary}&secondary_language=${secondary}&lang_level=${level}`)
+        const data = await res.json()
+
+        if (data.error) {
+            msg.innerText = `⚠️ ${data.error}`
+            msg.style.color = 'orange'
+            return
+        }
+
+        msg.innerText = ''
+        buildPractice(data)
+
+    } catch (err) {
+        msg.innerText = '⚠️ Could not load dialogue. Please try again.'
+        console.error(err)
+    }
+}
+
+function buildPractice(dialogue) {
+    document.getElementById('dialogue-topic').innerText = '📖 ' + dialogue.topic
+    document.getElementById('dialogue-level').innerText = dialogue.lang_level
+    document.getElementById('practice-area').style.display = 'block'
+
+    const container = document.getElementById('dialogue-lines')
+    container.innerHTML = ''
+
+    dialogue.lines.forEach(line => {
+        container.innerHTML += `
+        <div class="card" id="card-${line.id}">
+            <div class="card-header">
+                <span class="number">${line.id}</span>
+                <div class="card-content">
+                    <span class="speaker">${line.name}</span>
+                    <p class="primary-text">${line.primary_lang}</p>
+                </div>
+                <button class="speak-btn" onmousedown="event.preventDefault()"
+                    onclick="speak('${line.primary_lang.replace(/'/g, "\\'")}', getPrimaryLangCode())">🔊</button>
+            </div>
+
+            <div class="card-input">
+                <input type="text"
+                    id="input-${line.id}"
+                    placeholder="Type your translation here..."
+                    onkeypress="if(event.key==='Enter') checkAnswer(${line.id}, '${line.secondary_lang.replace(/'/g, "\\'")}')">
+                <button class="btn-submit" onmousedown="event.preventDefault()"
+                    onclick="checkAnswer(${line.id}, '${line.secondary_lang.replace(/'/g, "\\'")}')">Check</button>
+            </div>
+
+            <div id="answer-${line.id}" class="answer-box" style="display: none;">
+                <p id="feedback-${line.id}" class="feedback"></p>
+                <div class="answer-content">
+                    <p class="secondary-text">${line.secondary_lang}</p>
+                    <button class="speak-btn" onmousedown="event.preventDefault()"
+                        onclick="speak('${line.secondary_lang.replace(/'/g, "\\'")}', getSecondaryLangCode())">🔊</button>
+                </div>
+            </div>
+        </div>`
+    })
+
+    // Scroll to practice area
+    document.getElementById('practice-area').scrollIntoView({ behavior: 'smooth' })
+}
+
+function checkAnswer(id, correct) {
+    const userAnswer = document.getElementById('input-' + id).value.trim()
+    if (!userAnswer) {
+        alert('Please type your translation first')
+        return
+    }
+    const clean = t => t.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()
+    const isCorrect = clean(userAnswer) === clean(correct)
+    const feedback = document.getElementById('feedback-' + id)
+    feedback.innerText = isCorrect ? '✅ Correct!' : '❌ Not quite — see answer below'
+    feedback.style.color = isCorrect ? 'green' : '#c0392b'
+    document.getElementById('answer-' + id).style.display = 'block'
+}
+
+// Language code map for speech
+const langCodes = {
+    english: 'en-GB', lithuanian: 'lt-LT', latvian: 'lv-LV',
+    estonian: 'et-EE', german: 'de-DE', french: 'fr-FR',
+    spanish: 'es-ES', italian: 'it-IT', portuguese: 'pt-PT',
+    dutch: 'nl-NL', polish: 'pl-PL', ukrainian: 'uk-UA',
+    russian: 'ru-RU', swedish: 'sv-SE', norwegian: 'nb-NO',
+    danish: 'da-DK', finnish: 'fi-FI', greek: 'el-GR',
+    brazilian_portuguese: 'pt-BR', mandarin: 'zh-CN',
+    japanese: 'ja-JP', korean: 'ko-KR', hindi: 'hi-IN',
+    vietnamese: 'vi-VN', arabic: 'ar-SA'
+}
+
+function getPrimaryLangCode() {
+    return langCodes[document.getElementById('primary_language').value] || 'en-GB'
+}
+
+function getSecondaryLangCode() {
+    return langCodes[document.getElementById('secondary_language').value] || 'en-GB'
+}
+
+function speak(text, langCode) {
+    speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = langCode
+    utterance.rate = 0.9
+
+    const voices = speechSynthesis.getVoices()
+    const match = voices.find(v => v.lang === langCode) ||
+                  voices.find(v => v.lang.startsWith(langCode.substring(0, 2)))
+    if (match) utterance.voice = match
+
+    speechSynthesis.speak(utterance)
+}
+</script>
+
+{{ sw_script() }}
+</body>
+</html>

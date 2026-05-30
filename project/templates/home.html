@@ -7,33 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>Active Language Learning</title>
-
-    {{ pwa_tags() }} 
-    
+    {{ pwa_tags() }}
 </head>
 <body>
 
     {{ sw_script() }}
-
-
     {{ topnav() }}
 
     <div class="container">
 
         <!-- Hero Section -->
         <div class="hero">
-            <h1>🌍 Active Recall Language Learning</h1>
+            <img src="{{ url_for('static', filename='icon-512.png') }}"
+                alt="Active Language Learning"
+                class="hero-logo">
+
+            <h1 class="hero-title">🌍 Active Recall Language Learning</h1>
             <p class="hero-subtitle">Master any language through dialogue practice and active recall</p>
 
             {% if session.get('loggedin') %}
-                <!-- Logged in user sees welcome and quick start -->
                 <div class="welcome-box">
                     <h2>Welcome back, {{ session['username'] }}! 👋</h2>
                     <p class="subtitle">Ready to practise today?</p>
                     <a href="/select_languages" class="hero-btn">Start Practising →</a>
                 </div>
             {% else %}
-                <!-- Guest sees login and register buttons -->
                 <div class="hero-buttons">
                     <a href="/register" class="hero-btn">Get Started — It's Free</a>
                     <a href="/login" class="hero-btn-outline">Login</a>
@@ -41,38 +39,42 @@
             {% endif %}
         </div>
 
+        <!-- Divider -->
+        <div class="section-divider">
+            <span>✨ What You Get</span>
+        </div>
+
         <!-- Features Section -->
         <div class="features">
-
             <div class="feature-card">
                 <div class="feature-icon">💬</div>
                 <h3>AI Generated Dialogues</h3>
                 <p class="feature-text">Generate realistic conversations in any language using Google Gemini AI — tailored to your level from A1 to C2.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">🧠</div>
                 <h3>Active Recall Practice</h3>
                 <p class="feature-text">Translate each sentence yourself before revealing the answer. Proven to improve retention far better than passive reading.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">🔊</div>
                 <h3>Native Pronunciation</h3>
-                <p class="feature-text">Hear every sentence spoken aloud in the correct language with natural pacing to train your ear.</p>
+                <p class="feature-text">Hear every sentence spoken aloud to train your ear.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">🌐</div>
                 <h3>40+ Languages</h3>
                 <p class="feature-text">From Lithuanian to Japanese, Brazilian Portuguese to Swahili — practise any language pair you choose.</p>
             </div>
+        </div>
 
+        <!-- Divider -->
+        <div class="section-divider">
+            <span>🚀 How It Works</span>
         </div>
 
         <!-- How It Works Section -->
         <div class="how-it-works">
-            <h2>How It Works</h2>
             <div class="steps">
                 <div class="step">
                     <span class="step-number">1</span>
@@ -93,6 +95,59 @@
                     <span class="step-number">4</span>
                     <p class="step-text">Listen to the correct pronunciation</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="section-divider">
+            <span>📲 Install the App</span>
+        </div>
+
+        <!-- Install Section -->
+        <div class="install-section">
+            <p class="install-intro">No app store needed — install directly from your browser in seconds and use it like a native app</p>
+
+            <div class="install-cards">
+
+                <div class="install-card">
+                    <div class="install-icon">🤖</div>
+                    <h3>Android</h3>
+                    <p class="install-platform">Chrome Browser</p>
+                    <ol class="install-steps">
+                        <li>Open this site in <strong>Chrome</strong></li>
+                        <li>Tap the <strong>three dots ⋮</strong> top right</li>
+                        <li>Tap <strong>"Add to Home Screen"</strong></li>
+                        <li>Tap <strong>"Add"</strong> to confirm</li>
+                    </ol>
+                    <div class="install-result">✅ App appears on your home screen</div>
+                </div>
+
+                <div class="install-card">
+                    <div class="install-icon">🍎</div>
+                    <h3>iPhone / iPad</h3>
+                    <p class="install-platform">Safari Browser</p>
+                    <ol class="install-steps">
+                        <li>Open this site in <strong>Safari</strong></li>
+                        <li>Tap the <strong>Share button</strong> at the bottom</li>
+                        <li>Tap <strong>"Add to Home Screen"</strong></li>
+                        <li>Tap <strong>"Add"</strong> top right</li>
+                    </ol>
+                    <div class="install-result">✅ App icon appears on your home screen</div>
+                </div>
+
+                <div class="install-card">
+                    <div class="install-icon">💻</div>
+                    <h3>Desktop</h3>
+                    <p class="install-platform">Chrome Browser</p>
+                    <ol class="install-steps">
+                        <li>Open this site in <strong>Chrome</strong></li>
+                        <li>Click the <strong>install icon ⊕</strong> in the address bar</li>
+                        <li>Click <strong>"Install"</strong></li>
+                        <li>Opens in its own window</li>
+                    </ol>
+                    <div class="install-result">✅ Find it in your apps like any desktop app</div>
+                </div>
+
             </div>
         </div>
 

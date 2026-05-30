@@ -120,11 +120,11 @@
 {% endmacro %}
 
 {% macro topnav() %}
-
 <div class="topnav">
     <a href="/">Home</a>
-    <a href="/select_languages">Select Languages</a>
-    <a href="/translation_practice">Translation Practice</a>
+    <a href="/browse_dialogues">Try Translation</a>
+    <a href="/select_languages">Generate a dialogue</a>
+    <a href="/translation_practice">Practice Translation</a>
     <div class="nav-auth">
         {% if session.get('loggedin') %}
             <a href="/account_settings">Account</a>

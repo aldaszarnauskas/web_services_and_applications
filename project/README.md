@@ -70,22 +70,6 @@ python hello_world.py
 
 7. Open your browser at `http://127.0.0.1:5000`
 
-### Project Structure
-project/
-├── hello_world.py          ← main Flask application
-├── get_a_dialogue.py       ← Gemini API dialogue generation
-├── requirements.txt        ← dependencies
-├── templates/              ← HTML templates
-│   ├── home.html
-│   ├── login.html
-│   ├── register.html
-│   ├── select_languages.html
-│   ├── translation_practice.html
-│   ├── account_settings.html
-│   └── macros.html
-└── static/
-├── style.css
-└── background_image.png
 
 ### Database
 Two tables linked by a foreign key:

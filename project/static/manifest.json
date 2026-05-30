@@ -1,10 +1,10 @@
 {
-    "name": "Active Recall Language Learning",
-    "short_name": "ARLL",
+    "name": "Active Language Learning Tool",
+    "short_name": "ALLT",
     "description": "Learn languages through active recall and dialogue practice",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#9AC0CD",
+    "background_color": "#FFFFFF",
     "theme_color": "#1E5A7B",
     "icons": [
         {

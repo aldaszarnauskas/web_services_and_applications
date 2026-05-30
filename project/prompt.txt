@@ -1,0 +1,13 @@
+Generate a random dialogue of exactly {dialogue_length} sentences at intermediate {cambridge_level} level in {primary_language}.
+
+The dialogue must:
+- Use exactly 2 speakers with authentic {secondary_language} names that are common in {secondary_language}-speaking countries
+- Keep the same two names throughout the entire dialogue
+
+
+Follow this format EXACTLY with no bold text, no markdown, no extra formatting:
+
+1. Name: Text in {primary_language} [Translation in {secondary_language}]
+2. Name: Text in {primary_language} [Translation in {secondary_language}]
+
+Only output the numbered lines, nothing else.

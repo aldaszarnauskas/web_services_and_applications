@@ -18,7 +18,7 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    display: block;    /* ← was flex, now block */
+    display: block;
 }
 
 .container {
@@ -59,7 +59,7 @@ a:hover {
 }
 
 /* ============================================
-   INPUTS
+   INPUTS — login / register forms
 ============================================ */
 input[type="text"],
 input[type="password"],
@@ -82,7 +82,7 @@ input[type="email"] {
 }
 
 /* ============================================
-   BUTTONS
+   BUTTONS — global default
 ============================================ */
 button {
     width: 95%;
@@ -101,22 +101,7 @@ button:hover {
     background-color: #1E5A7B;
 }
 
-.btn-submit {
-    width: auto;
-    padding: 10px 18px;
-    background: #236B8E;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.btn-submit:hover {
-    background: #1E5A7B;
-}
-
+/* Speak button — small inline icon button */
 .speak-btn {
     width: auto;
     padding: 5px 10px;
@@ -128,6 +113,7 @@ button:hover {
     color: #236B8E;
     margin: 0;
     flex-shrink: 0;
+    font-style: normal;
 }
 
 .speak-btn:hover {
@@ -209,10 +195,11 @@ p {
 ============================================ */
 .card {
     background: white;
+    width: 100%;
     border-radius: 10px;
     padding: 15px 20px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
 
@@ -227,9 +214,10 @@ p {
     flex: 1;
 }
 
-.number, .step-number {
-    background: #FFD700; /* Gold/Yellow */
-    color: #236B8E;      /* Blue text for contrast */
+.number,
+.step-number {
+    background: #FFD700;
+    color: #236B8E;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -239,8 +227,9 @@ p {
     font-size: 0.85rem;
     font-weight: bold;
     flex-shrink: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .speaker {
     font-size: 0.8rem;
     font-weight: bold;
@@ -256,44 +245,109 @@ p {
     font-style: normal;
 }
 
-/* Input + Button container */
-.card-input {
-    display: flex;            /* horizontal layout */
-    gap: 10px;                /* space between input and button */
-    margin-bottom: 10px;
+/* ============================================
+   FULL WIDTH INPUT WRAPPER
+   (textarea + check button inside each card)
+============================================ */
+.input-wrapper {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+    box-sizing: border-box;
 }
 
-/* Input field */
-.card-input input {
-    flex: 1;                  /* fills available space */
-    padding: 14px;            /* taller typing area */
-    font-size: 1.1rem;        /* larger, easier to read */
-    border: 1.5px solid #ccc;
-    border-radius: 6px;
-    min-height: 48px;         /* ensures enough height on mobile */
-}
-
-/* Submit button */
-.card-input .btn-submit {
-    padding: 12px 18px;
+.full-width-textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 14px 16px;
     font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    flex-shrink: 0;           /* keeps button width stable */
-}
-
-.card-input input:focus {
-    border-color: #236B8E;
+    font-family: inherit;
+    font-style: normal;
+    border: 2px solid #9AC0CD;
+    border-radius: 10px;
+    background: #f0f8ff;
+    color: #1E5A7B;
+    resize: none !important;        /* removes the drag handle completely */
+    height: 80px;                   /* default open height — same as Claude's chat box */
+    min-height: 80px;
+    max-height: 300px;              /* stops it growing too tall on long text */
     outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow-y: auto;               /* scroll if text exceeds max-height */
+    line-height: 1.5;
+    display: block;
 }
 
+.full-width-textarea::placeholder {
+    color: #9AC0CD;
+    font-style: italic;
+    font-weight: normal;
+}
+
+.full-width-textarea:focus {
+    border-color: #236B8E;
+    box-shadow: 0 0 0 3px rgba(35, 107, 142, 0.15);
+}
+
+/* Check button — full width on mobile */
+.full-width-btn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-style: normal;
+    background: #236B8E;
+    color: #f0f8ff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.full-width-btn:hover {
+    background: #1E5A7B;
+    transform: translateY(-1px);
+}
+
+.full-width-btn:active {
+    transform: translateY(0);
+}
+
+/* On tablet and desktop — side by side */
+@media (min-width: 600px) {
+    .input-wrapper {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+
+    .full-width-textarea {
+        flex: 1;
+        width: auto;
+    }
+
+    .full-width-btn {
+        width: auto;
+        padding: 14px 28px;
+        flex-shrink: 0;
+    }
+}
+
+/* ============================================
+   ANSWER BOX
+============================================ */
 .answer-box {
     background: #f0f8ff;
     border-left: 4px solid #236B8E;
     border-radius: 0 6px 6px 0;
     padding: 10px 15px;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 .answer-content {
@@ -305,12 +359,13 @@ p {
 
 .secondary-text {
     margin: 0;
-    color: #DAA520; /* Darker Goldenrod for readability on light backgrounds */
+    color: #DAA520;
     font-weight: bold;
     font-style: normal;
     flex: 1;
     font-size: 1.1rem;
 }
+
 .feedback {
     font-weight: bold;
     margin: 0 0 6px 0;
@@ -358,7 +413,7 @@ p {
 }
 
 /* ============================================
-   HOMEPAGE
+   HOMEPAGE — HERO
 ============================================ */
 .hero {
     padding: 60px 20px 40px 20px;
@@ -368,6 +423,23 @@ p {
 .hero h1 {
     color: #ffffff;
     font-size: 2.2rem;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+
+.hero-logo {
+    width: 260px;
+    height: 260px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.hero-title {
+    color: #ffffff;
+    font-size: 2rem;
     background: none;
     padding: 0;
     border-radius: 0;
@@ -434,12 +506,14 @@ p {
 }
 
 .hero-btn-outline:hover {
-    background-color: rgba(255,255,255,0.15);
+    background-color: rgba(255, 255, 255, 0.15);
     text-decoration: none;
     color: white;
 }
 
-/* Features */
+/* ============================================
+   HOMEPAGE — FEATURES
+============================================ */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -452,12 +526,18 @@ p {
     border-radius: 12px;
     padding: 25px 20px;
     text-align: center;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .feature-icon {
     font-size: 2rem;
     margin-bottom: 12px;
-    color: #FFD700; /* Icons now yellow */
+    color: #FFD700;
 }
 
 .feature-card h3 {
@@ -474,7 +554,9 @@ p {
     opacity: 0.9;
 }
 
-/* How it works */
+/* ============================================
+   HOMEPAGE — HOW IT WORKS
+============================================ */
 .how-it-works {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
@@ -496,13 +578,12 @@ p {
 }
 
 .step {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     padding: 15px;
     width: 160px;
     text-align: center;
 }
-
 
 .step-text {
     color: #f0f8ff;
@@ -517,11 +598,129 @@ p {
     font-weight: bold;
 }
 
-/* Footer */
+/* ============================================
+   SECTION DIVIDERS
+============================================ */
+.section-divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0 20px 0;
+    gap: 12px;
+}
+
+.section-divider::before,
+.section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.section-divider span {
+    color: #f0f8ff;
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+/* ============================================
+   INSTALL SECTION
+============================================ */
+.install-section {
+    margin-bottom: 30px;
+}
+
+.install-intro {
+    color: #f0f8ff;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.install-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.install-card {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.install-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.install-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.install-card h3 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.install-platform {
+    color: #9AC0CD;
+    font-size: 0.85rem;
+    margin: 0 0 14px 0;
+    font-style: italic;
+}
+
+.install-steps {
+    text-align: left;
+    color: #f0f8ff;
+    font-size: 0.88rem;
+    padding-left: 18px;
+    margin-bottom: 14px;
+    line-height: 2;
+}
+
+.install-steps strong {
+    color: #ffffff;
+}
+
+.install-result {
+    background: rgba(35, 107, 142, 0.5);
+    color: #f0f8ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* ============================================
+   LEVEL BADGE
+============================================ */
+.level-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    color: #f0f8ff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* ============================================
+   FOOTER
+============================================ */
 .footer {
     text-align: center;
     padding: 20px 0;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
     margin-top: 20px;
 }
 
@@ -532,11 +731,19 @@ p {
     font-style: normal;
     margin: 0;
 }
-/* ============================================
-   MOBILE FIX
-============================================ */
 
+/* ============================================
+   MOBILE
+============================================ */
 @media (max-width: 768px) {
+
+    .container {
+        padding: 20px;
+    }
+
+    .hero {
+        padding: 30px 15px;
+    }
 
     .form-row {
         flex-direction: column;
@@ -546,15 +753,6 @@ p {
     .arrow {
         display: none;
     }
-
-    .hero {
-        padding: 30px 15px;
-    }
-
-    .container {
-        padding: 20px;
-    }
-
 
     .topnav {
         flex-wrap: wrap;
@@ -569,18 +767,4 @@ p {
         width: 100%;
         justify-content: center;
     }
-
-        .card-input {
-        flex-direction: column;
-    }
-
-    .card-input .btn-submit {
-        width: 100%;
-    }
-
-    .card-input input {
-        font-size: 1.2rem;
-        padding: 16px;
-    }
-
 }

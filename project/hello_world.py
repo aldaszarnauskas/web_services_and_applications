@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 import os
 from google import genai
 from get_a_dialogue import get_a_dialogue
+from sqlalchemy.sql.expression import func
+import json
 
 load_dotenv()
 
@@ -36,6 +38,62 @@ class Choices(db.Model):
     secondary_language = db.Column(db.String(255), nullable=True)
     lang_level = db.Column(db.String(255), nullable=True)
     dialogue_length = db.Column(db.Integer, nullable=True)
+
+
+class Dialogue(db.Model):
+    __tablename__ = 'dialogues'
+    id = db.Column(db.Integer, primary_key=True)
+    topic = db.Column(db.String(255), nullable=True)
+    lang_level = db.Column(db.String(10), nullable=False)
+    length = db.Column(db.Integer, nullable=False)
+
+    lines = db.relationship(
+        'DialogueLine',
+        backref='dialogue',
+        order_by='DialogueLine.line_number',
+        cascade='all, delete-orphan'
+    )
+
+
+class DialogueLine(db.Model):
+    __tablename__ = 'dialogue_lines'
+    id = db.Column(db.Integer, primary_key=True)
+    dialogue_id = db.Column(db.Integer, db.ForeignKey('dialogues.id'), nullable=False)
+    line_number = db.Column(db.Integer, nullable=False)
+    speaker_name = db.Column(db.String(50), nullable=False)
+
+    # European languages
+    lithuanian = db.Column(db.Text, nullable=True)
+    latvian = db.Column(db.Text, nullable=True)
+    estonian = db.Column(db.Text, nullable=True)
+    english = db.Column(db.Text, nullable=True)
+    german = db.Column(db.Text, nullable=True)
+    french = db.Column(db.Text, nullable=True)
+    spanish = db.Column(db.Text, nullable=True)
+    italian = db.Column(db.Text, nullable=True)
+    portuguese = db.Column(db.Text, nullable=True)
+    dutch = db.Column(db.Text, nullable=True)
+    polish = db.Column(db.Text, nullable=True)
+    ukrainian = db.Column(db.Text, nullable=True)
+    russian = db.Column(db.Text, nullable=True)
+    swedish = db.Column(db.Text, nullable=True)
+    norwegian = db.Column(db.Text, nullable=True)
+    danish = db.Column(db.Text, nullable=True)
+    finnish = db.Column(db.Text, nullable=True)
+    greek = db.Column(db.Text, nullable=True)
+
+    # American languages
+    brazilian_portuguese = db.Column(db.Text, nullable=True)
+
+    # Asian languages
+    mandarin = db.Column(db.Text, nullable=True)
+    japanese = db.Column(db.Text, nullable=True)
+    korean = db.Column(db.Text, nullable=True)
+    hindi = db.Column(db.Text, nullable=True)
+    vietnamese = db.Column(db.Text, nullable=True)
+
+    # Middle Eastern / African
+    arabic = db.Column(db.Text, nullable=True)
 
 
 # Create tables if they don't exist yet
@@ -256,8 +314,7 @@ def translation_practice():
     )
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
 
 
 #---- PWA app like experience ----#
@@ -268,3 +325,93 @@ def service_worker():
         'Content-Type': 'application/javascript',
         'Cache-Control': 'no-cache'
     }
+
+
+# ---- Stored Dialogue Practice ----
+
+# Page to browse and select stored dialogues
+@app.route('/browse_dialogues', methods=['GET'])
+def browse_dialogues():
+
+    levels = db.session.query(Dialogue.lang_level).distinct().all()
+    levels = [l[0] for l in levels]
+
+    level_order = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+    levels = sorted(levels, key=lambda x: level_order.index(x) if x in level_order else 99)
+
+    return render_template("browse_dialogues.html", levels=levels)
+
+
+# API route — get a random stored dialogue
+@app.route('/api/stored_dialogue', methods=['GET'])
+def api_stored_dialogue():
+    if not session.get('loggedin'):
+        return jsonify({'error': 'Not logged in'}), 401
+
+    level = request.args.get('lang_level', 'A1')
+    primary = request.args.get('primary_language', 'english')
+    secondary = request.args.get('secondary_language', 'lithuanian')
+
+    # Map language names to column names
+    lang_map = {
+        'lithuanian': 'lithuanian',
+        'latvian': 'latvian',
+        'estonian': 'estonian',
+        'english': 'english',
+        'german': 'german',
+        'french': 'french',
+        'spanish': 'spanish',
+        'italian': 'italian',
+        'portuguese': 'portuguese',
+        'dutch': 'dutch',
+        'polish': 'polish',
+        'ukrainian': 'ukrainian',
+        'russian': 'russian',
+        'swedish': 'swedish',
+        'norwegian': 'norwegian',
+        'danish': 'danish',
+        'finnish': 'finnish',
+        'greek': 'greek',
+        'brazilian_portuguese': 'brazilian_portuguese',
+        'mandarin': 'mandarin',
+        'japanese': 'japanese',
+        'korean': 'korean',
+        'hindi': 'hindi',
+        'vietnamese': 'vietnamese',
+        'arabic': 'arabic',
+    }
+
+    primary_col = lang_map.get(primary, 'english')
+    secondary_col = lang_map.get(secondary, 'lithuanian')
+
+    # Get a random dialogue at the chosen level
+    dialogue = Dialogue.query.filter_by(
+        lang_level=level
+    ).order_by(func.random()).first()
+
+    if not dialogue:
+        return jsonify({'error': f'No dialogues found for level {level}'}), 404
+
+    lines = []
+    for dl in dialogue.lines:
+        primary_text = getattr(dl, primary_col) or ''
+        secondary_text = getattr(dl, secondary_col) or ''
+        if primary_text:
+            lines.append({
+                'id': dl.line_number,
+                'name': dl.speaker_name,
+                'primary_lang': primary_text,
+                'secondary_lang': secondary_text
+            })
+
+    return jsonify({
+        'id': dialogue.id,
+        'topic': dialogue.topic,
+        'lang_level': dialogue.lang_level,
+        'lines': lines
+    })
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
