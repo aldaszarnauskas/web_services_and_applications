@@ -1,0 +1,200 @@
+{% from 'macros.html' import topnav, pwa_tags, sw_script %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Admin — Users</title>
+    {{ pwa_tags() }}
+</head>
+<body>
+    {{ sw_script() }}
+    {{ topnav() }}
+
+    <div class="container">
+
+        <h2>👑 Admin Panel</h2>
+        <p class="subtitle">Manage all user accounts</p>
+
+        <!-- Summary cards -->
+        <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
+
+            <div class="card" style="flex:1; min-width:150px; text-align:center; padding:20px;">
+                <p style="font-size:2rem; font-weight:bold; color:#236B8E; margin:0;">
+                    {{ users|length }}
+                </p>
+                <p style="font-style:normal; color:#555; margin:5px 0 0 0;">Total Users</p>
+            </div>
+
+            <div class="card" style="flex:1; min-width:150px; text-align:center; padding:20px;">
+                <p style="font-size:2rem; font-weight:bold; color:#27ae60; margin:0;">
+                    {{ users|selectattr('role','equalto','subscriber')|selectattr('subscription_active')|list|length }}
+                </p>
+                <p style="font-style:normal; color:#555; margin:5px 0 0 0;">Active Subscribers</p>
+            </div>
+
+            <div class="card" style="flex:1; min-width:150px; text-align:center; padding:20px;">
+                <p style="font-size:2rem; font-weight:bold; color:#FFD700; margin:0;">
+                    {{ users|selectattr('role','equalto','member')|list|length }}
+                </p>
+                <p style="font-style:normal; color:#555; margin:5px 0 0 0;">Free Members</p>
+            </div>
+
+            <div class="card" style="flex:1; min-width:150px; text-align:center; padding:20px;">
+                <p style="font-size:2rem; font-weight:bold; color:#999; margin:0;">
+                    {{ users|selectattr('role','equalto','free')|list|length }}
+                </p>
+                <p style="font-style:normal; color:#555; margin:5px 0 0 0;">Free Tier</p>
+            </div>
+
+        </div>
+
+        <!-- Users table -->
+        <div class="card" style="overflow-x:auto; padding:0;">
+            <table style="width:100%; border-collapse:collapse; font-style:normal; text-align:left;">
+                <thead>
+                    <tr style="background:#236B8E; color:white;">
+                        <th style="padding:12px;">ID</th>
+                        <th style="padding:12px;">Username</th>
+                        <th style="padding:12px;">Email</th>
+                        <th style="padding:12px;">Role</th>
+                        <th style="padding:12px;">Subscription</th>
+                        <th style="padding:12px;">Today's Usage</th>
+                        <th style="padding:12px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr style="border-bottom:1px solid #eee;" id="row-{{ u.id }}">
+
+                        <td style="padding:12px; color:#999;">{{ u.id }}</td>
+
+                        <td style="padding:12px; font-weight:bold; color:#1E5A7B;">
+                            {{ u.username }}
+                            {% if u.role == 'admin' %}
+                                👑
+                            {% endif %}
+                        </td>
+
+                        <td style="padding:12px; color:#555;">{{ u.email }}</td>
+
+                        <td style="padding:12px;">
+                            <select onchange="updateRole({{ u.id }}, this.value)"
+                                    style="padding:6px 10px; border-radius:6px;
+                                           border:1px solid #ccc; font-size:0.9rem;
+                                           background:#f0f8ff; color:#236B8E;
+                                           font-weight:bold; cursor:pointer;">
+                                <option value="free"
+                                    {% if u.role == 'free' %}selected{% endif %}>
+                                    Free
+                                </option>
+                                <option value="member"
+                                    {% if u.role == 'member' %}selected{% endif %}>
+                                    Member
+                                </option>
+                                <option value="subscriber"
+                                    {% if u.role == 'subscriber' %}selected{% endif %}>
+                                    Subscriber
+                                </option>
+                                <option value="admin"
+                                    {% if u.role == 'admin' %}selected{% endif %}>
+                                    Admin
+                                </option>
+                            </select>
+                        </td>
+
+                        <td style="padding:12px;">
+                            {% if u.subscription_active %}
+                                <span style="color:#27ae60; font-weight:bold;">✅ Active</span>
+                            {% else %}
+                                <span style="color:#999;">— Inactive</span>
+                            {% endif %}
+                        </td>
+
+                        <td style="padding:12px;">
+                            {% if u.role == 'subscriber' %}
+                                {% set used = usage.get(u.id, 0) %}
+                                <!-- progress bar -->
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <div style="flex:1; background:#eee; border-radius:10px;
+                                                height:8px; min-width:80px;">
+                                        <div style="background:#236B8E; border-radius:10px;
+                                                    height:8px;
+                                                    width:{{ [((used / daily_limit) * 100)|int, 100]|min }}%;">
+                                        </div>
+                                    </div>
+                                    <span style="font-size:0.85rem; color:#555; white-space:nowrap;">
+                                        {{ used }} / {{ daily_limit }}
+                                    </span>
+                                </div>
+                            {% elif u.role in ('admin', 'member') %}
+                                <span style="color:#27ae60; font-size:0.85rem;">Unlimited</span>
+                            {% else %}
+                                <span style="color:#999; font-size:0.85rem;">No access</span>
+                            {% endif %}
+                        </td>
+
+                        <td style="padding:12px;">
+                            {% if u.id != session.get('id') %}
+                                <button onclick="deleteUser({{ u.id }}, '{{ u.username }}')"
+                                        style="background:#c0392b; width:auto;
+                                               padding:6px 14px; font-size:0.85rem;
+                                               margin:0; font-style:normal;">
+                                    Delete
+                                </button>
+                            {% else %}
+                                <span style="color:#999; font-size:0.85rem;">You</span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <p style="color:#f0f8ff; font-size:0.8rem; margin-top:15px; opacity:0.7;">
+            Usage resets daily at midnight. Admins and members have no limit.
+        </p>
+
+    </div>
+
+    <script>
+    function updateRole(userId, newRole) {
+        fetch('/admin/update_role', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId, role: newRole })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Reload the page so subscription status and usage bar update
+                location.reload();
+            }
+        });
+    }
+
+    function deleteUser(userId, username) {
+        if (!confirm(`Delete account "${username}"? This cannot be undone.`)) return;
+        fetch('/admin/delete_user', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.msg) {
+                document.getElementById(`row-${userId}`).remove();
+            } else {
+                alert(data.error);
+            }
+        });
+    }
+    </script>
+
+</body>
+</html>

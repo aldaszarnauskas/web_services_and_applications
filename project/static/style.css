@@ -101,11 +101,20 @@ button:hover {
     background-color: #1E5A7B;
 }
 
-/* Speak button — small inline icon button */
+/* ============================================
+   SPEAK BUTTONS GROUP
+============================================ */
+.speak-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 .speak-btn {
     width: auto;
     padding: 5px 10px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     background: transparent;
     border: 1.5px solid #236B8E;
     border-radius: 6px;
@@ -114,6 +123,8 @@ button:hover {
     margin: 0;
     flex-shrink: 0;
     font-style: normal;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
 }
 
 .speak-btn:hover {

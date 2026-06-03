@@ -120,22 +120,29 @@
 {% endmacro %}
 
 {% macro topnav() %}
-<div class="topnav">
-    <a href="/">Home</a>
-    <a href="/browse_dialogues">Try Translation</a>
-    <a href="/select_languages">Generate a dialogue</a>
-    <a href="/translation_practice">Practice Translation</a>
+<nav class="topnav">
+    <a href="{{ url_for('home') }}">Home</a>
+
+    {% if session.get('loggedin') %}
+        <a href="{{ url_for('select_languages') }}">Practice</a>
+        <a href="{{ url_for('browse_dialogues') }}">Browse</a>
+    {% endif %}
+
     <div class="nav-auth">
         {% if session.get('loggedin') %}
-            <a href="/account_settings">Account</a>
-            <a href="/logout">Logout</a>
+            {% if session.get('user_role') == 'admin' %}
+                <a href="{{ url_for('admin_users') }}" style="color:#FFD700; font-weight:bold;">
+                    👑 Admin
+                </a>
+            {% endif %}
+            <a href="{{ url_for('account_settings') }}">{{ session.get('username') }}</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
         {% else %}
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
         {% endif %}
     </div>
-</div>
-
+</nav>
 {% endmacro %}
 
 {% macro pwa_tags() %}

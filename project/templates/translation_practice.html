@@ -51,9 +51,20 @@
                 <!-- Answer revealed after submit -->
                 <div id="answer-{{ line['id'] }}" class="answer-box" style="display: none;" translate="no">
                     <p id="feedback-{{ line['id'] }}" class="feedback"></p>
+                    <!-- In the answer-box — speaks the correct answer at different speeds -->
                     <div class="answer-content">
                         <p class="secondary-text" translate="no">{{ line['secondary_lang'] }}</p>
-                        <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] | replace("'", "\\'") }}', '{{ lang_code }}')">🔊</button>
+                        <div class="speak-buttons">
+                            <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] | replace("'", "\\'") }}', '{{ secondary_language }}', 1.0)">
+                                🔊 1x
+                            </button>
+                            <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] | replace("'", "\\'") }}', '{{ secondary_language }}', 0.75)">
+                                🔊 0.75x
+                            </button>
+                            <button class="speak-btn" onclick="speak('{{ line['secondary_lang'] | replace("'", "\\'") }}', '{{ secondary_language }}', 0.5)">
+                                🔊 0.5x
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -91,11 +102,11 @@
         document.getElementById("answer-" + id).style.display = "block";
     }
 
-    function speak(text, lang) {
+    function speak(text, lang, speed = 0.9) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
-        utterance.rate = 0.9;
+        utterance.rate = speed;
         utterance.pitch = 1;
         window.speechSynthesis.speak(utterance);
     }

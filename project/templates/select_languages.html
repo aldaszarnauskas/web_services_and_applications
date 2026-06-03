@@ -25,6 +25,29 @@
     <h2 class="word">🌍 Language Learning</h2>
     <p class="subtitle">Generate a dialogue to practise your language skills</p>
 
+        {% if remaining is not none %}
+        {% if remaining > 0 %}
+            <p class="progress-text">
+                🎯 {{ remaining }} dialogue generation{{ 's' if remaining != 1 }} remaining today
+            </p>
+        {% else %}
+            <div class="card" style="text-align:center; border-left: 4px solid #c0392b;">
+                <p style="color:#c0392b; font-style:normal; font-weight:bold;">
+                    ⏳ You have used all 5 dialogue generations for today.
+                </p>
+                <p style="color:#555; font-style:normal;">
+                    Your limit resets at midnight. Come back tomorrow!
+                </p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if error %}
+        <div class="card" style="border-left: 4px solid #c0392b;">
+            <p style="color:#c0392b; font-style:normal; font-weight:bold;">{{ error }}</p>
+        </div>
+    {% endif %}
+
     <form action="{{ url_for('select_languages') }}" method="post">
 
                 <!-- Two language selects side by side -->

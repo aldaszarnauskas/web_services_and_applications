@@ -1,0 +1,31 @@
+{% from 'macros.html' import topnav, pwa_tags, sw_script %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Email Confirmation</title>
+    {{ pwa_tags() }}
+</head>
+<body>
+    {{ sw_script() }}
+    {{ topnav() }}
+
+    <div class="container" style="text-align:center; padding-top:60px;">
+        {% if success %}
+            <h2>✅ Email Confirmed</h2>
+            <p class="subtitle">{{ message }}</p>
+            <a href="{{ url_for('login') }}" class="hero-btn" style="margin-top:20px;">
+                Go to Login
+            </a>
+        {% else %}
+            <h2>❌ Confirmation Failed</h2>
+            <p class="subtitle">{{ message }}</p>
+            <a href="{{ url_for('register') }}" class="hero-btn" style="margin-top:20px;">
+                Register Again
+            </a>
+        {% endif %}
+    </div>
+</body>
+</html>

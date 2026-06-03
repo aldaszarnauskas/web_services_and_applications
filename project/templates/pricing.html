@@ -1,0 +1,39 @@
+{% if session.get('loggedin') %}
+    {% set user_role = current_user_role %}
+    {% if user_role == 'admin' %}
+        <div class="card" style="max-width:400px; margin:20px auto; text-align:center;">
+            <p style="font-style:normal; color:#236B8E; font-weight:bold;">
+                ✅ You have admin access — no payment needed.
+            </p>
+        </div>
+    {% elif user_role == 'member' %}
+        <div class="card" style="max-width:400px; margin:20px auto; text-align:center;">
+            <p style="font-style:normal; color:#236B8E; font-weight:bold;">
+                ✅ You have free member access.
+            </p>
+        </div>
+    {% elif user_role == 'subscriber' %}
+        <div class="card" style="max-width:400px; margin:20px auto; text-align:center;">
+            <p style="font-style:normal; color:#236B8E; font-weight:bold;">
+                ✅ You have an active subscription.
+            </p>
+            <button onclick="cancelSubscription()" style="background:#c0392b; margin-top:10px;">
+                Cancel Subscription
+            </button>
+        </div>
+    {% else %}
+        <!-- show the payment button -->
+        <form action="/create_checkout_session" method="POST">
+            <button type="submit">Subscribe €2/month →</button>
+        </form>
+    {% endif %}
+{% endif %}
+
+<script>
+function cancelSubscription() {
+    if (!confirm('Are you sure you want to cancel your subscription?')) return;
+    fetch('/cancel_subscription', { method: 'POST' })
+        .then(r => r.json())
+        .then(data => alert(data.msg || data.error));
+}
+</script>

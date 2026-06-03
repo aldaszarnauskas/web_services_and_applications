@@ -7,15 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>Register</title>
-
-    {{ pwa_tags() }} 
-    
+    {{ pwa_tags() }}
 </head>
 <body>
 
     {{ sw_script() }}
-
-
     {{ topnav() }}
 
     <div class="container">
@@ -25,7 +21,29 @@
             <div>{{ msg }}</div>
 
             <input type="text" name="username" placeholder="Enter Username" required>
-            <input type="password" name="password" placeholder="Enter Password" required>
+
+            <input type="password" name="password" placeholder="Enter Password"
+                   id="password-input" required>
+
+            <!-- ↓ password requirements list — goes right after the password input -->
+            <div style="text-align:left; background:rgba(255,255,255,0.1);
+                        border-radius:8px; padding:12px; margin-bottom:10px;">
+                <p style="color:#f0f8ff; font-style:normal; font-size:0.85rem;
+                          font-weight:bold; margin-bottom:8px;">
+                    Password must contain:
+                </p>
+                <ul id="password-requirements"
+                    style="color:#f0f8ff; font-style:normal; font-size:0.85rem;
+                           padding-left:20px; margin:0; line-height:2;">
+                    <li>○ At least 8 characters</li>
+                    <li>○ One uppercase letter (A–Z)</li>
+                    <li>○ One lowercase letter (a–z)</li>
+                    <li>○ One number (0–9)</li>
+                    <li>○ One special character (!@#$%^&* etc)</li>
+                </ul>
+            </div>
+            <!-- ↑ end password requirements -->
+
             <input type="email" name="email" placeholder="Enter Email" required>
 
             <!-- Language selects -->
@@ -34,30 +52,55 @@
                     <label>Primary Language</label>
                     {{ primary_language_select(defaults) }}
                 </div>
-
                 <div class="form-group">
                     <label>Secondary Language</label>
                     {{ secondary_language_select(defaults) }}
                 </div>
-
                 <div class="form-group">
                     <label>Level</label>
                     {{ lang_level_select(defaults) }}
                 </div>
-
                 <div class="form-group">
                     <label>Dialogue Length</label>
                     {{ dialogue_length_select(defaults) }}
                 </div>
             </div>
 
-            <!-- Submit button -->
             <button type="submit">Register</button>
-
         </form>
 
         <p class="bottom">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
     </div>
+
+    <!-- ↓ script is inside body, before </html> -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById('password-input');
+        const requirements = {
+            length:    { regex: /.{8,}/,                   text: 'At least 8 characters' },
+            uppercase: { regex: /[A-Z]/,                   text: 'One uppercase letter (A–Z)' },
+            lowercase: { regex: /[a-z]/,                   text: 'One lowercase letter (a–z)' },
+            number:    { regex: /[0-9]/,                   text: 'One number (0–9)' },
+            special:   { regex: /[!@#$%^&*(),.?":{}|<>]/,  text: 'One special character (!@#$%^&* etc)' },
+        };
+
+        if (!passwordInput) return;
+
+        const list = document.querySelectorAll('#password-requirements li');
+
+        passwordInput.addEventListener('input', function () {
+            const val = passwordInput.value;
+            const keys = Object.keys(requirements);
+            list.forEach((li, i) => {
+                if (i < keys.length) {
+                    const passes = requirements[keys[i]].regex.test(val);
+                    li.style.color = passes ? '#2ecc71' : '#f0f8ff';
+                    li.textContent = (passes ? '✅ ' : '○ ') + requirements[keys[i]].text;
+                }
+            });
+        });
+    });
+    </script>
 
 </body>
 </html>
