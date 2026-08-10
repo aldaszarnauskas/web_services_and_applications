@@ -1,4 +1,6 @@
-# Web Services and Applications
+# Active Recall Language Learning App — Flask & Google Gemini AI
+
+*Web Services and Applications module, ATU*
 
 ### Author
 **Aldas Zarnauskas**
