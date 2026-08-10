@@ -1,86 +1,80 @@
-# Web Services and Applications
-
-### Author
-**Aldas Zarnauskas**
-
----
-
-## Table of contents
-* [Overview](#overview)
-* [Project](#project)
-* [Requirements](#requirements)
-* [License](#license)
-* [Reference](#reference)
-
----
-
-## Overview
-This repository contains the project work for the **Web Services and Applications** module at **Atlantic Technological University, Galway**.  
-The module is part of the *Level 8 Higher Diploma in Computational and Data Analytical Science* program.
-
----
-
-## Project
-
-### Active Recall Language Learning
+# Active Recall Language Learning
 
 A Flask web application for language learning through active recall and dialogue practice, powered by Google Gemini AI.
 
 **Live Demo:** https://aldas.pythonanywhere.com
 
-### Features
-- AI generated dialogues using Google Gemini API
+---
+
+## Table of Contents
+* [Features](#features)
+* [How to Run Locally](#how-to-run-locally)
+* [Database](#database)
+* [Requirements](#requirements)
+* [License](#license)
+* [References](#references)
+
+---
+
+## Features
+- AI-generated dialogues using the Google Gemini API
 - Translation practice with active recall — type your translation before revealing the answer
-- Text to speech pronunciation using the Web Speech API
+- Text-to-speech pronunciation using the Web Speech API
 
+---
 
-### How to Run Locally
+## How to Run Locally
 
-1. Clone the repository
-```bash
-git clone https://github.com/aldaszarnauskas/web_services_and_applications.git
-```
+Requires **Python 3.10+**.
 
-2. Navigate to the project folder
-```bash
-cd web_services_and_applications/project
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/aldaszarnauskas/web_services_and_applications.git
+   ```
 
-3. Create a virtual environment and activate it
-```bash
-python3 -m venv venv
-source venv/bin/activate        # Mac/Linux
-venv\Scripts\activate           # Windows
-```
+2. Navigate to the project folder:
+   ```bash
+   cd web_services_and_applications/project
+   ```
 
-4. Install dependencies
-```bash
-pip install -r requirements.txt
-```
+3. Create a virtual environment and activate it:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate        # Mac/Linux
+   venv\Scripts\activate           # Windows
+   ```
 
-5. Create a `.env` file in the project folder with your credentials
+4. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-SECRET_KEY=your_secret_key
-GEMINI_API_KEY=your_gemini_api_key
+5. Create a `.env` file in the project folder with your credentials:
+   ```
+   SECRET_KEY=your_secret_key
+   GEMINI_API_KEY=your_gemini_api_key
+   ```
 
-6. Run the app
-```bash
-python hello_world.py
-```
+6. Run the app:
+   ```bash
+   python hello_world.py
+   ```
 
 7. Open your browser at `http://127.0.0.1:5000`
 
+---
 
-### Database
+## Database
+
 Two tables linked by a foreign key:
-- **accounts** — stores user login details (id, username, password, email)
-- **default_choices** — stores saved language preferences per user (primary language, secondary language, level, dialogue length)
-
+- **accounts** — stores user login details (id, username, password, email).
+- **default_choices** — stores saved language preferences per user (primary language, secondary language, level, dialogue length).
 
 ---
 
 ## Requirements
-Dependencies for this project are listed in [requirements.txt](requirements.txt).  
+
+Dependencies for this project are listed in [requirements.txt](requirements.txt).
 To install them, run:
 
 ```bash
@@ -90,11 +84,13 @@ pip install -r requirements.txt
 ---
 
 ## License
-No license specified.
+
+This project is licensed under the MIT License — see the [LICENSE](../LICENSE) file for details.
 
 ---
 
-## Reference
+## References
+
 - Flask quickstart — initial version of the website:
   https://flask.palletsprojects.com/en/stable/quickstart/#a-minimal-application
 
